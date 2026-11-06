@@ -7,8 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table (name="student")
+@Table(name="student")
 public class Student {
+
     @Id 
     @GeneratedValue(
         strategy = jakarta.persistence.GenerationType.IDENTITY)
@@ -25,7 +26,6 @@ public class Student {
     private String email;
 
     public Student() {
-
     }
 
     public Student(String firstName, String lastName, String email) {
@@ -69,10 +69,9 @@ public class Student {
     @Override
     public String toString() {
         return "Student [id=" + id + 
-        ", firstName=" + firstName + 
-        ", lastName=" + lastName + 
-        ", email=" + email + "]";
+            ", firstName=" + firstName + 
+            ", lastName=" + lastName + 
+            ", email=" + email + "]";
     }
-
     
 }
