@@ -1,6 +1,9 @@
 package com.spring.hibernate_demo;
 
+import com.spring.hibernate_demo.dao.AppDao;
 import com.spring.hibernate_demo.dao.StudentDao;
+import com.spring.hibernate_demo.entity.Instructor;
+import com.spring.hibernate_demo.entity.InstructorDetail;
 import com.spring.hibernate_demo.entity.Student;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
@@ -22,17 +25,67 @@ public class HibernateDemoApplication {
     SpringApplication.run(HibernateDemoApplication.class, args);
   }
 
+  /*
+   * @Bean
+   * CommandLineRunner commandLineRunner(StudentDao studentDao) {
+   * return runner -> {
+   * createStudent(studentDao);
+   * readStudent(studentDao);
+   * queryStudents(studentDao);
+   * queryStudentsLastName(studentDao);
+   * updateStudent(studentDao);
+   * deleteStudent(studentDao);
+   * deleteAllStudents(studentDao);
+   * };
+   * }
+   */
+
   @Bean
-  CommandLineRunner commandLineRunner(StudentDao studentDao) {
+  CommandLineRunner commandLineRunner(AppDao app) {
     return runner -> {
-      createStudent(studentDao);
-      readStudent(studentDao);
-      queryStudents(studentDao);
-      queryStudentsLastName(studentDao);
-      updateStudent(studentDao);
-      deleteStudent(studentDao);
-      deleteAllStudents(studentDao);
+      createInstructor(app);
+      findInstructor(app);
+      deleteInstructor(app);
     };
+  }
+
+  private void createInstructor(AppDao app) {
+    // create the instructor and details
+    Instructor instructor = new Instructor(
+        "Vicky",
+        "Magtatanggol",
+        "vicky.mags@example.com");
+
+    InstructorDetail details = new InstructorDetail(
+        "Math",
+        "Solving problems");
+
+    // associate the objects
+    instructor.setInstructorDetails(details);
+
+    // save the instructor
+    // this will also save the details object
+    // because of the CascadeType.ALL
+    System.out.println("Information saved!");
+    app.save(instructor);
+  }
+
+  private void findInstructor(AppDao app) {
+    int id = 1;
+    System.out.println("Find id: " + id);
+
+    Instructor instructor = app.findInstructorById(id);
+
+    System.out.println("Instructor: " + instructor);
+    System.out.println("Details: " + instructor.getInstructorDetails());
+  }
+
+  private void deleteInstructor(AppDao app) {
+    int id = 1;
+    System.out.println("Delete id: " + id);
+
+    app.deleteInstructorById(id);
+    System.out.println("Deleted successfully!");
   }
 
   private void createStudent(StudentDao studentDao) {
