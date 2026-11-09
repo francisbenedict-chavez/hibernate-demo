@@ -1,6 +1,10 @@
 package com.spring.hibernate_demo.dao;
 
+import java.util.List;
+
+import com.spring.hibernate_demo.entity.Course;
 import com.spring.hibernate_demo.entity.Instructor;
+import com.spring.hibernate_demo.entity.InstructorDetail;
 
 public interface AppDao {
 
@@ -9,5 +13,21 @@ public interface AppDao {
     Instructor findInstructorById(Integer theId);
 
     void deleteInstructorById(Integer theId);
+
+    InstructorDetail findInstructorDetailById(Integer theId);
+
+    void deleteInstructorDetail(Integer theId);
+
+    List<Course> findCoursesByInstructorId(Integer theId);
+
+    Instructor findInstructorByIdJoinFetch(Integer theId);
+
+    void update(Instructor instructor);
+
+    void deleteInstructorByIdWithoutRemovingCourses(Integer theId);
+
+    void save(Course theCourse);
+
+    Course findCourseAndReviewsByCourseId(Integer theId);
 
 }
