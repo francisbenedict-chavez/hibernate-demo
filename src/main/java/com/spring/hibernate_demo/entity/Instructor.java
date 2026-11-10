@@ -1,8 +1,5 @@
 package com.spring.hibernate_demo.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,9 +11,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Represents an instructor entity mapped to the instructor table.
+ * Represents an instructor and their associated courses and details.
+ *
+ * <p>
+ * Mapped to the {@code instructor} table.
+ * </p>
  */
 @Entity
 @Table(name = "instructor")
@@ -51,6 +54,14 @@ public class Instructor {
   public Instructor() {
   }
 
+  /**
+   * Creates an instructor with the specified first name, last name, and email
+   * address.
+   *
+   * @param firstName the instructor's first name
+   * @param lastName  the instructor's last name
+   * @param email     the instructor's email address
+   */
   public Instructor(String firstName, String lastName, String email) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -114,7 +125,12 @@ public class Instructor {
         + "]";
   }
 
-  // a convenience method to link the two objects Course and Instructor
+  /**
+   * Adds a course to this instructor and sets the instructor reference on the
+   * course.
+   *
+   * @param thisCourse the course to associate with this instructor
+   */
   public void add(Course thisCourse) {
     // initializes list if it's null
     if (this.courses == null) {

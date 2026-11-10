@@ -1,8 +1,5 @@
 package com.spring.hibernate_demo.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,13 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Represents a student record in the database.
+ * Represents a student record.
  *
  * <p>
- * This entity is mapped to the {@code student} table and stores the
- * student's basic information, including first name, last name, and email.
+ * Mapped to the {@code student} table.
  * </p>
  */
 @Entity
@@ -111,9 +109,16 @@ public class Student {
         ", email=" + email + "]";
   }
 
+  /**
+   * Adds a course to this student and
+   * maintains the bidirectional relationship.
+   *
+   * @param course the course to be associated with this student
+   */
   public void addCourse(Course course) {
-    if (this.courses == null)
+    if (this.courses == null) {
       courses = new ArrayList<>();
+    }
     courses.add(course);
     course.addStudent(this);
   }

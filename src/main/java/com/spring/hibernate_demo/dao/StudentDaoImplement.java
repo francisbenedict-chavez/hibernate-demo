@@ -10,9 +10,6 @@ import org.springframework.stereotype.Repository;
 /**
  * JPA implementation of {@link StudentDao}.
  * Handles CRUD operations for {@link Student} entities.
- *
- * @see StudentDao
- * @see Student
  */
 @Repository
 public class StudentDaoImplement implements StudentDao {
@@ -79,7 +76,8 @@ public class StudentDaoImplement implements StudentDao {
   @Override
   @Transactional
   public int deleteAll() {
-    int numRows = entityManager.createQuery("DELETE FROM Student").executeUpdate();
+    int numRows = entityManager.createQuery(
+        "DELETE FROM Student").executeUpdate();
     return numRows;
   }
 
