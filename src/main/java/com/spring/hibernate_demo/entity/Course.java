@@ -92,6 +92,11 @@ public class Course {
     this.instructor = instructor;
   }
 
+  /**
+   * Adds a review to this course.
+   *
+   * @param review the review to add
+   */
   public void addReview(Review review) {
     if (this.review == null) {
       this.review = new ArrayList<>();
