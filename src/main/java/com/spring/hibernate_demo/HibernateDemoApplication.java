@@ -57,7 +57,14 @@ public class HibernateDemoApplication {
       // updateInstructor(app);
       // deleteInstructorOnly(app);
       // createCourseAndReviews(app);
-      retrieveCourseAndReviews(app);
+      // retrieveCourseAndReviews(app);
+      // deleteCourseAndReviews(app);
+      // createCourseAndStudents(app);
+      // findCourseAndStudents(app);
+      // findStudentAndCourses(app);
+      // addMoreCoursesForStudent(app);
+      // deleteCourseById(app);
+      deleteStudent(app);
     };
   }
 
@@ -234,6 +241,80 @@ public class HibernateDemoApplication {
 
     // print the reviews
     System.out.println(course.getReview());
+  }
+
+  private void deleteCourseAndReviews(AppDao app) {
+    int id = 3;
+    System.out.println("Delete course: " + id);
+
+    app.deleteCourseById(id);
+    System.out.println("Deleted successfully!");
+  }
+
+  private void createCourseAndStudents(AppDao app) {
+    // create a course
+    Course course = new Course("How to Be A FullStack Dev in Half a Day");
+
+    // create the students
+    Student student1 = new Student("Light", "Yagami", "light.yagami@example.com");
+    Student student2 = new Student("Leslie", "Andrews", "leslie.andrews@example.com");
+
+    // add student to the course
+    course.addStudent(student1);
+    course.addStudent(student2);
+
+    // save the course and associated students
+    app.save(course);
+    System.out.println("Successfully enrolled!");
+  }
+
+  private void findCourseAndStudents(AppDao app) {
+    int id = 21;
+    Course course = app.findCourseAndStudentsByCourseId(id);
+
+    System.out.println("Course: " + course);
+    System.out.println("Students: " + course.getStudents());
+  }
+
+  private void findStudentAndCourses(AppDao app) {
+    int id = 2;
+    Student student = app.findStudentAndCoursesByStudentId(id);
+
+    System.out.println("Student: " + student);
+    System.out.println("Courses: " + student.getCourses());
+  }
+
+  private void addMoreCoursesForStudent(AppDao app) {
+    int id = 2;
+    Student student = app.findStudentAndCoursesByStudentId(id);
+
+    Course course1 = new Course("How to Test without Running Application");
+    Course course2 = new Course("How to Develop without Computer");
+    Course course3 = new Course("How to Be a Legit Developer");
+
+    student.addCourse(course1);
+    student.addCourse(course2);
+    student.addCourse(course3);
+
+    System.out.println("Sucessfully enrolled to new courses!");
+
+    app.update(student);
+  }
+
+  private void deleteCourseById(AppDao app) {
+    int id = 42;
+    System.out.println("Delete course: " + id);
+
+    app.deleteCourseById(id);
+    System.out.println("Deleted successfully!");
+  }
+
+  private void deleteStudent(AppDao app) {
+    int id = 2;
+    System.out.println("Delete student: " + id);
+
+    app.deleteStudentById(id);
+    System.out.println("Deleted successfully!");
   }
 
   /*

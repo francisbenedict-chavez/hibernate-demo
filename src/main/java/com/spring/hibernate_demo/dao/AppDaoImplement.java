@@ -3,6 +3,8 @@ package com.spring.hibernate_demo.dao;
 import com.spring.hibernate_demo.entity.Course;
 import com.spring.hibernate_demo.entity.Instructor;
 import com.spring.hibernate_demo.entity.InstructorDetail;
+import com.spring.hibernate_demo.entity.Student;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -129,6 +131,75 @@ public class AppDaoImplement implements AppDao {
         Course course = query.getSingleResult();
 
         return course;
+    }
+
+    @Override
+    @Transactional
+    public void deleteCourseById(Integer theId) {
+        // retrieve the course
+        Course course = entityManager.find(Course.class, theId);
+
+        // delete the course
+        entityManager.remove(course);
+    }
+
+    @Override
+    public Course findCourseAndStudentsByCourseId(Integer theId) {
+        // create query
+        TypedQuery<Course> query = entityManager.createQuery(
+                "SELECT c FROM  Course c "
+                        + "JOIN FETCH c.students "
+                        + "WHERE c.id=:data",
+                Course.class);
+        query.setParameter("data", theId);
+
+        // execute query
+        Course course = query.getSingleResult();
+
+        return course;
+    }
+
+    @Override
+    public Student findStudentAndCoursesByStudentId(Integer theId) {
+        // create query
+        TypedQuery<Student> query = entityManager.createQuery(
+                "SELECT s FROM Student s "
+                        + "JOIN FETCH s.courses "
+                        + "WHERE s.id=:data",
+                Student.class);
+        query.setParameter("data", theId);
+
+        // execute query
+        Student student = query.getSingleResult();
+
+        return student;
+    }
+
+    @Override
+    @Transactional
+    public void update(Student student) {
+        entityManager.merge(student);
+    }
+
+    @Override
+    @Transactional
+    public void deleteStudentById(Integer theId) {
+        // retrieve student
+        Student student = entityManager.find(Student.class, theId);
+
+        if (student != null) {
+            // get the courses
+            List<Course> courses = student.getCourses();
+
+            // break the associations of courses for student
+            for (Course course : courses) {
+                course.getStudents().remove(student);
+            }
+        }
+
+        // delete only the student
+        // does not include courses associated
+        entityManager.remove(student);
     }
 
 }
