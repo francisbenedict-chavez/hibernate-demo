@@ -23,10 +23,20 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class HibernateDemoApplication {
 
+  /** 
+   * Starts the Spring Boot application. 
+   */
   public static void main(String[] args) {
     SpringApplication.run(HibernateDemoApplication.class, args);
   }
 
+  /**
+   * Creates the command-line runner that executes the demo operations.
+   *
+   * @param studentDao dao for student operations
+   * @param app dao for instructor course and student operations
+   * @return a runner that executes the demo when the application starts
+   */
   @Bean
   CommandLineRunner commandLineRunner(StudentDao studentDao, AppDao app) {
     return runner -> {
