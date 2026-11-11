@@ -51,6 +51,7 @@ public class HibernateDemoApplication {
       findInstructorWithCoursesJoinFetch(app);
       updateInstructor(app);
       deleteInstructorOnly(app);
+      deleteCourseOnly(app);
       createCourseAndReviews(app);
       retrieveCourseAndReviews(app);
       deleteCourseAndReviews(app);
@@ -64,7 +65,9 @@ public class HibernateDemoApplication {
   }
 
   /**
-   * First part: Using StudentDao.
+   * Creates and saves sample students.
+   *
+   * @param studentDao data access object used to save the students
    */
   private void createStudent(StudentDao studentDao) {
     System.out.println("Creating student information...");
@@ -94,12 +97,22 @@ public class HibernateDemoApplication {
     System.out.println("Saved! Generated id: " + student3.getId());
   }
 
+  /**
+   * Finds and prints the student with ID 2.
+   *
+   * @param studentDao data access object used to find the student
+   */
   private void readStudent(StudentDao studentDao) {
     System.out.println("Retrieving student id 2...");
     Student student = studentDao.findById(2);
     System.out.println("Found the student: " + student);
   }
 
+  /**
+   * Finds and prints all students.
+   *
+   * @param studentDao data access object used to retrieve the students
+   */
   private void queryStudents(StudentDao studentDao) {
     List<Student> students = studentDao.findAll();
 
@@ -108,6 +121,11 @@ public class HibernateDemoApplication {
     }
   }
 
+  /**
+   * Finds and prints students whose last name is Andrews.
+   *
+   * @param studentDao data access object used to search for students
+   */
   private void queryStudentsLastName(StudentDao studentDao) {
     List<Student> students = studentDao.findByLastName("Andrews");
 
@@ -116,6 +134,11 @@ public class HibernateDemoApplication {
     }
   }
 
+  /**
+   * Updates the name and email address of the student with ID 1.
+   *
+   * @param studentDao data access object used to find and update the student
+   */
   private void updateStudent(StudentDao studentDao) {
     int id = 1;
 
@@ -131,6 +154,11 @@ public class HibernateDemoApplication {
     System.out.println("Updated student information: " + student);
   }
 
+  /**
+   * Deletes the student with ID 2.
+   *
+   * @param studentDao data access object used to delete the student
+   */
   private void deleteStudent(StudentDao studentDao) {
     int id = 2;
 
@@ -138,6 +166,11 @@ public class HibernateDemoApplication {
     studentDao.delete(id);
   }
 
+  /**
+   * Deletes all students.
+   *
+   * @param studentDao data access object used to delete the students
+   */
   private void deleteAllStudents(StudentDao studentDao) {
     System.out.println("Deleting all student information...");
     int rowsDeleted = studentDao.deleteAll();
@@ -145,7 +178,9 @@ public class HibernateDemoApplication {
   }
 
   /**
-   * Second part: Using AppDao.
+   * Creates and saves sample instructors with instructor details.
+   *
+   * @param app data access object used to save the instructors
    */
   private void createInstructor(AppDao app) {
     Instructor instructor1 = new Instructor(
@@ -173,6 +208,11 @@ public class HibernateDemoApplication {
     System.out.println("Information saved!");
   }
 
+  /**
+   * Finds and prints the instructor with ID 1 and their details.
+   *
+   * @param app data access object used to find the instructor
+   */
   private void findInstructor(AppDao app) {
     int id = 1;
 
@@ -183,6 +223,11 @@ public class HibernateDemoApplication {
     System.out.println("Details: " + instructor.getInstructorDetails());
   }
 
+  /**
+   * Deletes the instructor with ID 1.
+   *
+   * @param app data access object used to delete the instructor
+   */
   private void deleteInstructor(AppDao app) {
     int id = 1;
 
@@ -192,6 +237,11 @@ public class HibernateDemoApplication {
     System.out.println("Deleted successfully!");
   }
 
+  /**
+   * Finds and prints the instructor details with ID 2 and its instructor.
+   *
+   * @param app data access object used to find the instructor details
+   */
   private void findInstructorDetail(AppDao app) {
     int id = 2;
     InstructorDetail instructorDetails = app.findInstructorDetailById(id);
@@ -201,6 +251,11 @@ public class HibernateDemoApplication {
     System.out.println("Instructor: " + instructorDetails.getInstructor());
   }
 
+  /**
+   * Deletes the instructor details with ID 2.
+   *
+   * @param app data access object used to delete the instructor details
+   */
   private void deleteInstructorDetail(AppDao app) {
     int id = 2;
 
@@ -210,6 +265,12 @@ public class HibernateDemoApplication {
     System.out.println("Deleted successfully!");
   }
 
+  /**
+   * Creates instructors, associates courses with them, 
+   * and saves the instructors.
+   *
+   * @param app data access object used to save the instructors and courses
+   */
   private void createInstructorWithCourses(AppDao app) {
     Instructor instructor1 = new Instructor("Peri",
         "Winkle",
@@ -282,6 +343,11 @@ public class HibernateDemoApplication {
     }
   }
 
+  /**
+   * Finds an instructor's courses by instructor ID and prints them.
+   *
+   * @param app data access object used to retrieve the instructor and courses
+   */
   private void findCoursesForInstructor(AppDao app) {
     int id = 3;
 
@@ -298,6 +364,11 @@ public class HibernateDemoApplication {
     System.out.println(instructor.getCourses());
   }
 
+  /**
+   * Finds an instructor and their courses using a join-fetch query.
+   *
+   * @param app data access object used to retrieve the instructor and courses
+   */
   private void findInstructorWithCoursesJoinFetch(AppDao app) {
     int id = 3;
 
@@ -308,6 +379,11 @@ public class HibernateDemoApplication {
     System.out.println("Courses: " + instructor.getCourses());
   }
 
+  /**
+   * Updates the name and email address of the instructor with ID 3.
+   *
+   * @param app data access object used to find and update the instructor
+   */
   private void updateInstructor(AppDao app) {
     int id = 3;
 
@@ -323,6 +399,11 @@ public class HibernateDemoApplication {
     System.out.println("Updated!");
   }
 
+  /**
+   * Deletes the instructor with ID 4 without deleting their courses.
+   *
+   * @param app data access object used to delete the instructor
+   */
   private void deleteInstructorOnly(AppDao app) {
     int id = 4;
 
@@ -332,6 +413,25 @@ public class HibernateDemoApplication {
     System.out.println("Deleted successfully!");
   }
 
+  /**
+   * Deletes the course with ID 2 without deleting its instructor.
+   *
+   * @param app data access object used to delete the course
+   */
+  private void deleteCourseOnly(AppDao app) {
+    int id = 2;
+
+    System.out.println("Delete course id: " + id);
+    app.deleteCourseByIdWithoutRemovingInstructor(id);
+
+    System.out.println("Deleted successfully!");
+  }
+
+  /**
+   * Creates courses with reviews and saves them.
+   *
+   * @param app data access object used to save the courses
+   */
   private void createCourseAndReviews(AppDao app) {
     Course course1 = new Course("How to Speed Run Spring in 1 Day");
 
@@ -355,6 +455,11 @@ public class HibernateDemoApplication {
     System.out.println("Course saved!");
   }
 
+  /**
+   * Finds and prints the course with ID 5 and its reviews.
+   *
+   * @param app data access object used to retrieve the course and reviews
+   */
   private void retrieveCourseAndReviews(AppDao app) {
     int id = 5;
 
@@ -365,6 +470,11 @@ public class HibernateDemoApplication {
     System.out.println(course.getReview());
   }
 
+  /**
+   * Deletes the course with ID 6.
+   *
+   * @param app data access object used to delete the course
+   */
   private void deleteCourseAndReviews(AppDao app) {
     int id = 6;
 
@@ -374,6 +484,11 @@ public class HibernateDemoApplication {
     System.out.println("Deleted successfully!");
   }
 
+  /**
+   * Creates a course, enrolls sample students, and saves the course.
+   *
+   * @param app data access object used to save the course and its students
+   */
   private void createCourseAndStudents(AppDao app) {
     Course course = new Course(
         "How to Be A FullStack Dev in Half a Day");
@@ -395,6 +510,11 @@ public class HibernateDemoApplication {
     System.out.println("Successfully enrolled!");
   }
 
+  /**
+   * Finds and prints the course with ID 7 and its enrolled students.
+   *
+   * @param app data access object used to retrieve the course and students
+   */
   private void findCourseAndStudents(AppDao app) {
     int id = 7;
 
@@ -404,6 +524,11 @@ public class HibernateDemoApplication {
     System.out.println("Students: " + course.getStudents());
   }
 
+  /**
+   * Finds and prints the student with ID 4 and their courses.
+   *
+   * @param app data access object used to retrieve the student and courses
+   */
   private void findStudentAndCourses(AppDao app) {
     int id = 4;
 
@@ -413,6 +538,11 @@ public class HibernateDemoApplication {
     System.out.println("Courses: " + student.getCourses());
   }
 
+  /**
+   * Adds three courses to the student with ID 5 and saves the update.
+   *
+   * @param app data access object used to retrieve and update the student
+   */
   private void addMoreCoursesForStudent(AppDao app) {
     int id = 5;
 
@@ -431,6 +561,11 @@ public class HibernateDemoApplication {
     System.out.println("Sucessfully enrolled to new courses!");
   }
 
+  /**
+   * Deletes the course with ID 8.
+   *
+   * @param app data access object used to delete the course
+   */
   private void deleteCourseById(AppDao app) {
     int id = 8;
 
@@ -440,6 +575,11 @@ public class HibernateDemoApplication {
     System.out.println("Deleted successfully!");
   }
 
+  /**
+   * Deletes the student with ID 4.
+   *
+   * @param app data access object used to delete the student
+   */
   private void deleteStudent(AppDao app) {
     int id = 4;
 

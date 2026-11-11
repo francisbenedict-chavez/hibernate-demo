@@ -98,19 +98,26 @@ public class AppDaoImplement implements AppDao {
   @Override
   @Transactional
   public void deleteInstructorByIdWithoutRemovingCourses(Integer theId) {
-    // retrieve instructor
     Instructor instructor = entityManager.find(Instructor.class, theId);
 
-    // break the associations of courses for instructor
     List<Course> courses = instructor.getCourses();
     for (Course course : courses) {
-      // remove the instructor from the courses
       course.setInstructor(null);
     }
 
-    // delete only the instructor
-    // does not include courses associated
     entityManager.remove(instructor);
+  }
+
+  @Override
+  @Transactional
+  public void deleteCourseByIdWithoutRemovingInstructor(Integer theId) {
+    Course course = entityManager.find(Course.class, theId);
+
+    Instructor instructor = course.getInstructor();
+    instructor.getCourses().remove(course);
+
+    course.setInstructor(null);
+    entityManager.remove(course);
   }
 
   @Override
